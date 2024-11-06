@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://c13ve37dw7exs"]
+
+[ext_resource type="Texture2D" uid="uid://8x51vukxpa5v" path="res://sprites/cat.png" id="1_uyppx"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kegro"]
+atlas = ExtResource("1_uyppx")
+
+[node name="Cat" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_kegro")

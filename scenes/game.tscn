@@ -20,8 +20,10 @@ tile_set = ExtResource("2_2sbvu")
 
 [node name="Manager" type="Node" parent="."]
 script = ExtResource("3_odegu")
-enemy_spawn_range = Vector2i(1, 5)
+enemy_spawn_range = Vector2i(1, 4)
+cat_spawn_chance = 1
 enemy_scene_path = "res://scenes/DemonEye.tscn"
+cat_scene_path = "res://scenes/cat.tscn"
 
 [node name="Pointer" type="Sprite2D" parent="Manager"]
 position = Vector2(32, 48)
