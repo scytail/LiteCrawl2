@@ -1,8 +1,13 @@
-[gd_scene load_steps=4 format=4 uid="uid://gsa875cdb1lf"]
+[gd_scene load_steps=6 format=4 uid="uid://gsa875cdb1lf"]
 
 [ext_resource type="PackedScene" uid="uid://bttqnha5niyt" path="res://scenes/player.tscn" id="1_op802"]
 [ext_resource type="TileSet" uid="uid://bqu7b1hpw4taw" path="res://sprites/world.tres" id="2_2sbvu"]
 [ext_resource type="Script" path="res://scripts/manager.gd" id="3_odegu"]
+[ext_resource type="Texture2D" uid="uid://b6wspms2npesw" path="res://sprites/GUI_nobg_16x16.png" id="4_8mpew"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_84hpa"]
+atlas = ExtResource("4_8mpew")
+region = Rect2(0, 128, 16, 16)
 
 [node name="Game" type="Node2D"]
 
@@ -15,5 +20,9 @@ tile_set = ExtResource("2_2sbvu")
 
 [node name="Manager" type="Node" parent="."]
 script = ExtResource("3_odegu")
-enemy_spawn_range = Vector2i(1, 1)
+enemy_spawn_range = Vector2i(1, 5)
 enemy_scene_path = "res://scenes/DemonEye.tscn"
+
+[node name="Pointer" type="Sprite2D" parent="Manager"]
+position = Vector2(32, 48)
+texture = SubResource("AtlasTexture_84hpa")
