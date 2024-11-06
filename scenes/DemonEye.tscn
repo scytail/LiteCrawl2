@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://cwc2h2wl7y20l"]
+
+[ext_resource type="Texture2D" uid="uid://ta3vb3upagei" path="res://sprites/Enemies_16x16_nobg.png" id="1_nxg5w"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n15wk"]
+atlas = ExtResource("1_nxg5w")
+region = Rect2(0, 16, 16, 16)
+
+[node name="DemonEye" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_n15wk")
