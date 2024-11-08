@@ -61,7 +61,7 @@ func _update_pointer_selection(shift_index: int):
 		$Pointer.queue_free()
 		return
 	
-	selected_target = (selected_target + 1) % targetables.size()
+	selected_target = (selected_target + shift_index) % targetables.size()
 
 
 func _unhandled_key_input(event):
