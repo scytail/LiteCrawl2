@@ -9,9 +9,10 @@ func type():
 	return "Enemy"
 
 
-func act(player: Player):
-	player.health_points -= attack_points
+func act(target: Enemy):
+	scene.do_attack_animation(target.scene)
+	target.health_points -= attack_points
 
 
-func act_on(player: Player):
+func act_on(player: Enemy):
 	health_points -= player.health_points

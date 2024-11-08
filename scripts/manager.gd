@@ -64,6 +64,13 @@ func _update_pointer_selection(shift_index: int):
 	selected_target = (selected_target + shift_index) % targetables.size()
 
 
+func _move_pointer(index: int):
+	if targetables.size() <= index || index < 0:
+		return
+	$Pointer.position = targetables[index].scene.position - Vector2(0, 16)
+
+
+# This is the main game loop
 func _unhandled_key_input(event):
 	if event.is_action_pressed("change target"):
 		_update_pointer_selection(1)
@@ -72,12 +79,6 @@ func _unhandled_key_input(event):
 		targetables[selected_target].act_on(player)
 		_validate_targetables()
 		_do_targetable_actions()
-
-
-func _move_pointer(index: int):
-	if targetables.size() <= index || index < 0:
-		return
-	$Pointer.position = targetables[index].scene.position - Vector2(0, 16)
 
 
 func _do_targetable_actions():

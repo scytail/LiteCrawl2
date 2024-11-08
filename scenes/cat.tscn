@@ -5,7 +5,8 @@
 [sub_resource type="AtlasTexture" id="AtlasTexture_kegro"]
 atlas = ExtResource("1_uyppx")
 
-[node name="Cat" type="Node2D"]
+[node name="Cat" type="CharacterBody2D"]
+motion_mode = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = SubResource("AtlasTexture_kegro")
