@@ -5,6 +5,8 @@ extends Node
 var enemy_spawn_range: Vector2i
 @export_range(0,100)
 var cat_spawn_chance: int
+@export
+var grid: LevelGrid
 
 @export_category("Scenes")
 @export_file("*.tscn")
