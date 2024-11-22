@@ -15,7 +15,6 @@ var enemy_scene_path: String
 var cat_scene_path: String
 
 var selected_target: int = 0
-var targetables: Array[Targetable] = []
 var player: Player
 
 # -1 is player, everything else is a targetable index
@@ -31,8 +30,9 @@ func _ready():
 	player.attack_points = 1
 	player.scene = $Player
 	
-	_spawn_baddies()
-	_spawn_goodies()
+	grid.generate_grid()
+	_spawn_targetable_scenes()
+	
 	_update_pointer_selection(0)
 	_move_pointer(selected_target)
 
@@ -44,6 +44,7 @@ func _unhandled_key_input(event):
 			_update_pointer_selection(1)
 			_move_pointer(selected_target)
 		if event.is_action_pressed("action"):
+			var targetables = grid.get_room(grid.current_room_coords).targetables
 			if (selected_target < 0 || selected_target >= targetables.size()):
 				return
 			_turn_in_progress = _do_targetable_actions(_turn_index)
@@ -51,7 +52,7 @@ func _unhandled_key_input(event):
 
 ## When able, jumps through the turn order, allowing enemies to do their 
 ## animations in the process
-func _process(delta):
+func _process(_delta):
 	if !_turn_in_progress && _turn_index != -1:
 		_turn_in_progress = _do_targetable_actions(_turn_index)
 		# if the action didn't fire, move to the next turn
@@ -62,6 +63,7 @@ func _process(delta):
 		if _turn_index < 0:
 			current_actor = player
 		else:
+			var targetables = grid.get_room(grid.current_room_coords).targetables
 			current_actor = targetables[_turn_index]
 			
 		if current_actor.scene.is_done_animating:
@@ -73,28 +75,21 @@ func _change_turn():
 	_validate_targetables()
 	_turn_in_progress = false
 	_turn_index += 1
-	if _turn_index >= targetables.size():
+	if _turn_index >= grid.get_room(grid.current_room_coords).targetables.size():
 		_turn_index = -1 
 
 
-## Spawns enemies in the game
-func _spawn_baddies():
-	var x_spawn = 64
-	for enemy_counter in range(0, randi_range(enemy_spawn_range.x, enemy_spawn_range.y)):
-		var enemy: Enemy = Enemy.new()
-		enemy.health_points = 1
-		enemy.attack_points = 1
-		targetables.append(enemy)
-		_instantiate_scene(enemy, enemy_scene_path, Vector2(x_spawn,64))
-		x_spawn += 32
-
-
-## Spawnms good stuff in the game
-func _spawn_goodies():
-	if randi_range(0,99) < cat_spawn_chance:
-		var cat: Targetable = Targetable.new()
-		targetables.append(cat)
-		_instantiate_scene(cat, cat_scene_path, Vector2(192, 96))
+## Spawns scenes of any targetables in the current room
+func _spawn_targetable_scenes():
+	# TODO: might be better to store the path and maybe the spawn coords 
+	#       somehow in the targetable
+	var baddie_x_spawn = 64
+	for targetable in grid.get_room(grid.current_room_coords).targetables:
+		if targetable.type() == "Enemy":
+			_instantiate_scene(targetable, enemy_scene_path, Vector2(baddie_x_spawn, 64))
+			baddie_x_spawn += 32
+		else:
+			_instantiate_scene(targetable, cat_scene_path, Vector2(192, 96))
 
 
 ## Spawns a scene within the game
@@ -108,6 +103,7 @@ func _instantiate_scene(targetable: Targetable, scene_path: String, position: Ve
 
 ## Handles the logic of moving around the pointer within code
 func _update_pointer_selection(shift_index: int):
+	var targetables = grid.get_room(grid.current_room_coords).targetables
 	if targetables.size() == 0:
 		selected_target = -1
 		$Pointer.queue_free()
@@ -118,6 +114,7 @@ func _update_pointer_selection(shift_index: int):
 
 ## Visually moves the pointer around the game based on the code logic
 func _move_pointer(index: int):
+	var targetables = grid.get_room(grid.current_room_coords).targetables
 	if targetables.size() <= index || index < 0:
 		return
 	$Pointer.position = targetables[index].scene.position - Vector2(0, 16)
@@ -126,6 +123,7 @@ func _move_pointer(index: int):
 ## Fires off the action sequence for a character, returning whether
 ## the action fired successfully or not
 func _do_targetable_actions(turn_index) -> bool:
+	var targetables = grid.get_room(grid.current_room_coords).targetables
 	if turn_index >= targetables.size():
 		return false
 		
@@ -148,11 +146,11 @@ func _validate_targetables():
 		# TODO: end game
 		player.scene.queue_free()
 		
-	for targetable: Targetable in targetables:
+	for targetable: Targetable in grid.get_room(grid.current_room_coords).targetables:
 		if targetable.type() == "Enemy":
 			if targetable.health_points <= 0:
 				targetable.scene.queue_free()
-				targetables.erase(targetable)
+				grid.get_room(grid.current_room_coords).targetables.erase(targetable)
 				
 				# Update cursor
 				_update_pointer_selection(0)
