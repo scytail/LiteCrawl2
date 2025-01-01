@@ -2,11 +2,7 @@ extends Node
 
 
 @export
-var enemy_spawn_range: Vector2i
-@export_range(0,100)
-var cat_spawn_chance: int
-@export
-var grid: LevelGrid
+var gridTemplate: LevelGridTemplate
 
 @export_category("Scenes")
 @export_file("*.tscn")
@@ -30,7 +26,7 @@ func _ready():
 	player.attack_points = 1
 	player.scene = $Player
 	
-	grid.generate_grid()
+	gridTemplate.generate_grid()
 	_spawn_targetable_scenes()
 	
 	_update_pointer_selection(0)
@@ -44,7 +40,7 @@ func _unhandled_key_input(event):
 			_update_pointer_selection(1)
 			_move_pointer(selected_target)
 		if event.is_action_pressed("action"):
-			var targetables = grid.get_room(grid.current_room_coords).targetables
+			var targetables = gridTemplate.get_room(gridTemplate.current_room_coords).targetables
 			if (selected_target < 0 || selected_target >= targetables.size()):
 				return
 			_turn_in_progress = _do_targetable_actions(_turn_index)
@@ -63,7 +59,7 @@ func _process(_delta):
 		if _turn_index < 0:
 			current_actor = player
 		else:
-			var targetables = grid.get_room(grid.current_room_coords).targetables
+			var targetables = gridTemplate.get_room(gridTemplate.current_room_coords).targetables
 			current_actor = targetables[_turn_index]
 			
 		if current_actor.scene.is_done_animating:
@@ -75,7 +71,7 @@ func _change_turn():
 	_validate_targetables()
 	_turn_in_progress = false
 	_turn_index += 1
-	if _turn_index >= grid.get_room(grid.current_room_coords).targetables.size():
+	if _turn_index >= gridTemplate.get_room(gridTemplate.current_room_coords).targetables.size():
 		_turn_index = -1 
 
 
@@ -84,7 +80,7 @@ func _spawn_targetable_scenes():
 	# TODO: might be better to store the path and maybe the spawn coords 
 	#       somehow in the targetable
 	var baddie_x_spawn = 64
-	for targetable in grid.get_room(grid.current_room_coords).targetables:
+	for targetable in gridTemplate.get_room(gridTemplate.current_room_coords).targetables:
 		if targetable.type() == "Enemy":
 			_instantiate_scene(targetable, enemy_scene_path, Vector2(baddie_x_spawn, 64))
 			baddie_x_spawn += 32
@@ -103,7 +99,7 @@ func _instantiate_scene(targetable: Targetable, scene_path: String, position: Ve
 
 ## Handles the logic of moving around the pointer within code
 func _update_pointer_selection(shift_index: int):
-	var targetables = grid.get_room(grid.current_room_coords).targetables
+	var targetables = gridTemplate.get_room(gridTemplate.current_room_coords).targetables
 	if targetables.size() == 0:
 		selected_target = -1
 		$Pointer.queue_free()
@@ -114,7 +110,7 @@ func _update_pointer_selection(shift_index: int):
 
 ## Visually moves the pointer around the game based on the code logic
 func _move_pointer(index: int):
-	var targetables = grid.get_room(grid.current_room_coords).targetables
+	var targetables = gridTemplate.get_room(gridTemplate.current_room_coords).targetables
 	if targetables.size() <= index || index < 0:
 		return
 	$Pointer.position = targetables[index].scene.position - Vector2(0, 16)
@@ -123,7 +119,7 @@ func _move_pointer(index: int):
 ## Fires off the action sequence for a character, returning whether
 ## the action fired successfully or not
 func _do_targetable_actions(turn_index) -> bool:
-	var targetables = grid.get_room(grid.current_room_coords).targetables
+	var targetables = gridTemplate.get_room(gridTemplate.current_room_coords).targetables
 	if turn_index >= targetables.size():
 		return false
 		
@@ -146,11 +142,11 @@ func _validate_targetables():
 		# TODO: end game
 		player.scene.queue_free()
 		
-	for targetable: Targetable in grid.get_room(grid.current_room_coords).targetables:
+	for targetable: Targetable in gridTemplate.get_room(gridTemplate.current_room_coords).targetables:
 		if targetable.type() == "Enemy":
 			if targetable.health_points <= 0:
 				targetable.scene.queue_free()
-				grid.get_room(grid.current_room_coords).targetables.erase(targetable)
+				gridTemplate.get_room(gridTemplate.current_room_coords).targetables.erase(targetable)
 				
 				# Update cursor
 				_update_pointer_selection(0)

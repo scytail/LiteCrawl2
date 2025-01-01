@@ -1,4 +1,4 @@
-class_name LevelGrid
+class_name LevelGridTemplate
 extends Resource
 
 
