@@ -12,7 +12,7 @@ func new():
 
 
 ## Adds a room to the room grid, leaving empty spaces in the grid along the way if needed
-func add_room(room_coords: Vector2i, room_data: EnemyRoomOption):
+func add_room(room_coords: Vector2i, room_data: RoomData):
 	# Init the grid if needed
 	if _room_grid == null:
 		_room_grid = []
@@ -26,7 +26,7 @@ func add_room(room_coords: Vector2i, room_data: EnemyRoomOption):
 
 
 ## Retrieves the room at the given coordinates
-func get_room(room_coords: Vector2i) -> EnemyRoomOption:
+func get_room(room_coords: Vector2i) -> RoomData:
 	return _room_grid[room_coords.x][room_coords.y]
 
 

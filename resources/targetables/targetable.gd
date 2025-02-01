@@ -10,10 +10,10 @@ func type():
 
 
 ## Triggers when the targetable acts
-func act(player: Player):
+func act(_player: Player):
 	pass
 
 
 ## Triggers when the targetable is acted on
-func act_on(player: Player):
+func act_on(_player: Player):
 	pass
