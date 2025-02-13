@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://ce7vhkk0pdhht"]
+
+[ext_resource type="Script" path="res://scripts/scenes/targetable_body.gd" id="1_e3yl2"]
+[ext_resource type="Texture2D" uid="uid://dkk8q8rgbjmxn" path="res://sprites/World_spritesheet_16x16.png" id="2_yhwni"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kegro"]
+atlas = ExtResource("2_yhwni")
+region = Rect2(0, 64, 16, 16)
+
+[node name="Door" type="CharacterBody2D"]
+motion_mode = 1
+script = ExtResource("1_e3yl2")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_kegro")

@@ -12,6 +12,9 @@ var enemy_scene_path: String
 ## A path to a scene file for spawned cats
 @export_file("*.tscn")
 var cat_scene_path: String
+## A path to a scene file for spawned doors
+@export_file("*.tscn")
+var door_scene_path: String
 
 ## The index of the targetable in a room array selected by the player
 var selected_target: int = 0
@@ -32,6 +35,7 @@ func _ready():
 	player.health_points = 10
 	player.attack_points = 1
 	player.scene = $Player
+	player.spawn_coords = $Player.position
 	
 	_level_grid = gridTemplate.generate_grid()
 	_spawn_targetable_scenes()
@@ -70,6 +74,7 @@ func _process(_delta):
 			current_actor = targetables[_turn_index]
 			
 		if current_actor.scene.is_done_animating:
+			current_actor.scene.position = current_actor.spawn_coords
 			_change_turn()
 
 
@@ -86,13 +91,13 @@ func _change_turn():
 func _spawn_targetable_scenes():
 	# TODO: might be better to store the path and maybe the spawn coords 
 	#       somehow in the targetable
-	var baddie_x_spawn = 64
 	for targetable in _level_grid.get_room(_level_grid.current_room_coords).targetables:
-		if targetable.type() == "Enemy":
-			_instantiate_scene(targetable, enemy_scene_path, Vector2(baddie_x_spawn, 64))
-			baddie_x_spawn += 32
-		else:
-			_instantiate_scene(targetable, cat_scene_path, Vector2(192, 96))
+		if targetable.type() == "Fightable":
+			_instantiate_scene(targetable, enemy_scene_path, targetable.spawn_coords)
+		elif targetable.type() == "Door":
+			_instantiate_scene(targetable, door_scene_path, targetable.spawn_coords)
+		elif targetable.type() == "Cat":
+			_instantiate_scene(targetable, cat_scene_path, targetable.spawn_coords)
 
 
 ## Spawns a scene within the game
@@ -150,7 +155,7 @@ func _validate_targetables():
 		player.scene.queue_free()
 		
 	for targetable: Targetable in _level_grid.get_room(_level_grid.current_room_coords).targetables:
-		if targetable.type() == "Enemy":
+		if targetable.type() == "Fightable":
 			if targetable.health_points <= 0:
 				targetable.scene.queue_free()
 				_level_grid.get_room(_level_grid.current_room_coords).targetables.erase(targetable)

@@ -1,11 +1,11 @@
-[gd_scene load_steps=10 format=4 uid="uid://gsa875cdb1lf"]
+[gd_scene load_steps=9 format=4 uid="uid://gsa875cdb1lf"]
 
 [ext_resource type="PackedScene" uid="uid://bttqnha5niyt" path="res://scenes/player.tscn" id="1_op802"]
 [ext_resource type="TileSet" uid="uid://bqu7b1hpw4taw" path="res://sprites/world.tres" id="2_2sbvu"]
 [ext_resource type="Script" path="res://resources/grid/enemy_room_option.gd" id="3_caeyj"]
 [ext_resource type="Script" path="res://scripts/manager.gd" id="3_odegu"]
 [ext_resource type="Script" path="res://resources/grid/levelGridTemplate.gd" id="4_0fobp"]
-[ext_resource type="Texture2D" uid="uid://b6wspms2npesw" path="res://sprites/GUI_nobg_16x16.png" id="4_8mpew"]
+[ext_resource type="PackedScene" uid="uid://cmbf7k53r7pi2" path="res://scenes/pointer.tscn" id="6_yd85f"]
 
 [sub_resource type="Resource" id="Resource_0jgsq"]
 script = ExtResource("3_caeyj")
@@ -14,12 +14,8 @@ cat_spawn_chance = 0
 
 [sub_resource type="Resource" id="Resource_pdl0n"]
 script = ExtResource("4_0fobp")
-grid_dimensions = Vector2i(2, 2)
+grid_dimensions = Vector2i(3, 3)
 room_options = Array[ExtResource("3_caeyj")]([SubResource("Resource_0jgsq")])
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_84hpa"]
-atlas = ExtResource("4_8mpew")
-region = Rect2(0, 128, 16, 16)
 
 [node name="Game" type="Node2D"]
 
@@ -32,10 +28,9 @@ script = ExtResource("3_odegu")
 gridTemplate = SubResource("Resource_pdl0n")
 enemy_scene_path = "res://scenes/DemonEye.tscn"
 cat_scene_path = "res://scenes/cat.tscn"
+door_scene_path = "res://scenes/door.tscn"
 
 [node name="Player" parent="Manager" instance=ExtResource("1_op802")]
 position = Vector2(128, 128)
 
-[node name="Pointer" type="Sprite2D" parent="Manager"]
-position = Vector2(32, 48)
-texture = SubResource("AtlasTexture_84hpa")
+[node name="Pointer" parent="Manager" instance=ExtResource("6_yd85f")]

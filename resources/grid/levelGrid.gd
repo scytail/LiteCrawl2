@@ -2,7 +2,7 @@ class_name LevelGrid
 
 
 ## The grid coordinates of the room the player is currently in
-var current_room_coords = Vector2i()
+var current_room_coords = Vector2i(1,1)
 
 var _room_grid: Array[Array]
 

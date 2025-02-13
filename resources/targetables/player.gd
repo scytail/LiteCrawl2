@@ -1,5 +1,5 @@
 class_name Player
-extends Enemy
+extends Fightable
 
 
 func type():
