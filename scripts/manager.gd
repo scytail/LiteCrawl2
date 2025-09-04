@@ -92,11 +92,11 @@ func _spawn_targetable_scenes():
 	# TODO: might be better to store the path and maybe the spawn coords 
 	#       somehow in the targetable
 	for targetable in _level_grid.get_room(_level_grid.current_room_coords).targetables:
-		if targetable.type() == "Fightable":
+		if targetable is Fightable:
 			_instantiate_scene(targetable, enemy_scene_path, targetable.spawn_coords)
-		elif targetable.type() == "Door":
+		elif targetable is Door:
 			_instantiate_scene(targetable, door_scene_path, targetable.spawn_coords)
-		elif targetable.type() == "Cat":
+		elif targetable is Cat:
 			_instantiate_scene(targetable, cat_scene_path, targetable.spawn_coords)
 
 
@@ -155,7 +155,7 @@ func _validate_targetables():
 		player.scene.queue_free()
 		
 	for targetable: Targetable in _level_grid.get_room(_level_grid.current_room_coords).targetables:
-		if targetable.type() == "Fightable":
+		if targetable is Fightable:
 			if targetable.health_points <= 0:
 				targetable.scene.queue_free()
 				_level_grid.get_room(_level_grid.current_room_coords).targetables.erase(targetable)

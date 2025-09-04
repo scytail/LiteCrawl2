@@ -1,0 +1,36 @@
+[gd_scene load_steps=9 format=4 uid="uid://gsa875cdb1lf"]
+
+[ext_resource type="PackedScene" uid="uid://bttqnha5niyt" path="res://scenes/player.tscn" id="1_op802"]
+[ext_resource type="TileSet" uid="uid://bqu7b1hpw4taw" path="res://sprites/world.tres" id="2_2sbvu"]
+[ext_resource type="Script" uid="uid://boff0f1j6vb4i" path="res://resources/grid/enemy_room_option.gd" id="3_caeyj"]
+[ext_resource type="Script" uid="uid://bhtf187rnf0ii" path="res://scripts/manager.gd" id="3_odegu"]
+[ext_resource type="Script" uid="uid://b0y5sqhqw7rhl" path="res://resources/grid/levelGridTemplate.gd" id="4_0fobp"]
+[ext_resource type="PackedScene" uid="uid://cmbf7k53r7pi2" path="res://scenes/pointer.tscn" id="6_yd85f"]
+
+[sub_resource type="Resource" id="Resource_0jgsq"]
+script = ExtResource("3_caeyj")
+enemy_spawn_range = Vector2i(2, 3)
+cat_spawn_chance = 0
+
+[sub_resource type="Resource" id="Resource_pdl0n"]
+script = ExtResource("4_0fobp")
+grid_dimensions = Vector2i(3, 3)
+room_options = Array[ExtResource("3_caeyj")]([SubResource("Resource_0jgsq")])
+
+[node name="Game" type="Node2D"]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAAAAAsAAAAAAAUAAAABAAsAAAAAAAUAAAACAAsAAAAAAAUAAAADAAsAAAAAAAUAAAAEAAsAAAAEAAUAAAAFAAsAAAAAAAUAAAAGAAsAAAAAAAUAAAAHAAsAAAAAAAUAAAAIAAsAAAAAAAUAAAAJAAsAAAAAAAUAAAAKAAsAAAAAAAUAAAALAAsAAAAFAAUAAAAMAAsAAAAAAAUAAAANAAsAAAAAAAUAAAAOAAsAAAAAAAUAAAAPAAsAAAAAAAUAAAAPAAoAAAAFAAkAAAAAAAoAAAADAAkAAAAOAAoAAAABAAYAAAANAAoAAAABAAYAAAAMAAoAAAABAAYAAAALAAoAAAABAAYAAAAKAAoAAAABAAYAAAAJAAoAAAABAAYAAAAIAAoAAAABAAYAAAAHAAoAAAABAAYAAAAGAAoAAAABAAYAAAAFAAoAAAABAAYAAAAEAAoAAAABAAYAAAADAAoAAAABAAYAAAACAAoAAAABAAYAAAABAAoAAAABAAYAAAAPAAkAAAAEAAYAAAAPAAgAAAAEAAYAAAAPAAcAAAAEAAYAAAAPAAYAAAAEAAYAAAAPAAUAAAAEAAYAAAAPAAQAAAAEAAYAAAAPAAMAAAAEAAYAAAAPAAIAAAAEAAYAAAAPAAEAAAAEAAYAAAAAAAkAAAAEAAYAAAAAAAgAAAAEAAYAAAAAAAcAAAAEAAYAAAAAAAYAAAAEAAYAAAAAAAUAAAAEAAYAAAAAAAQAAAAEAAYAAAAAAAMAAAAEAAYAAAAAAAIAAAAEAAYAAAAAAAEAAAAEAAYAAAAAAAAAAAADAAcAAAAPAAAAAAAFAAcAAAAOAAAAAAABAAYAAAANAAAAAAABAAYAAAAMAAAAAAABAAYAAAALAAAAAAABAAYAAAAKAAAAAAABAAYAAAAJAAAAAAABAAYAAAAIAAAAAAABAAYAAAAHAAAAAAABAAYAAAAGAAAAAAABAAYAAAAFAAAAAAABAAYAAAAEAAAAAAABAAYAAAADAAAAAAABAAYAAAACAAAAAAABAAYAAAABAAAAAAABAAYAAAABAAEAAAAAAAUAAAACAAEAAAAAAAUAAAAOAAEAAAAAAAUAAAANAAEAAAAAAAUAAAAMAAEAAAAAAAUAAAADAAEAAAAAAAUAAAAEAAEAAAAFAAUAAAAFAAEAAAAAAAUAAAALAAEAAAAEAAUAAAAKAAEAAAAAAAUAAAAJAAEAAAAAAAUAAAAGAAEAAAAAAAUAAAAHAAEAAAAAAAUAAAAIAAEAAAAAAAUAAAA=")
+tile_set = ExtResource("2_2sbvu")
+
+[node name="Manager" type="Node" parent="."]
+script = ExtResource("3_odegu")
+gridTemplate = SubResource("Resource_pdl0n")
+enemy_scene_path = "res://scenes/DemonEye.tscn"
+cat_scene_path = "res://scenes/cat.tscn"
+door_scene_path = "res://scenes/door.tscn"
+
+[node name="Player" parent="Manager" instance=ExtResource("1_op802")]
+position = Vector2(128, 128)
+
+[node name="Pointer" parent="Manager" instance=ExtResource("6_yd85f")]
