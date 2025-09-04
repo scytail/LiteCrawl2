@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://c13ve37dw7exs"]
 
-[ext_resource type="Script" path="res://scripts/scenes/targetable_body.gd" id="1_hhhlc"]
+[ext_resource type="Script" uid="uid://8kdo3b3p158d" path="res://scripts/scenes/targetable_body.gd" id="1_hhhlc"]
 [ext_resource type="Texture2D" uid="uid://8x51vukxpa5v" path="res://sprites/cat.png" id="1_uyppx"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kegro"]

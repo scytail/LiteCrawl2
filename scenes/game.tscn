@@ -2,9 +2,9 @@
 
 [ext_resource type="PackedScene" uid="uid://bttqnha5niyt" path="res://scenes/player.tscn" id="1_op802"]
 [ext_resource type="TileSet" uid="uid://bqu7b1hpw4taw" path="res://sprites/world.tres" id="2_2sbvu"]
-[ext_resource type="Script" path="res://resources/grid/enemy_room_option.gd" id="3_caeyj"]
-[ext_resource type="Script" path="res://scripts/manager.gd" id="3_odegu"]
-[ext_resource type="Script" path="res://resources/grid/levelGridTemplate.gd" id="4_0fobp"]
+[ext_resource type="Script" uid="uid://boff0f1j6vb4i" path="res://resources/grid/enemy_room_option.gd" id="3_caeyj"]
+[ext_resource type="Script" uid="uid://bhtf187rnf0ii" path="res://scripts/manager.gd" id="3_odegu"]
+[ext_resource type="Script" uid="uid://b0y5sqhqw7rhl" path="res://resources/grid/levelGridTemplate.gd" id="4_0fobp"]
 [ext_resource type="PackedScene" uid="uid://cmbf7k53r7pi2" path="res://scenes/pointer.tscn" id="6_yd85f"]
 
 [sub_resource type="Resource" id="Resource_0jgsq"]
