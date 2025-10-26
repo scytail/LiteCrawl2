@@ -16,6 +16,10 @@ config/features=PackedStringArray("4.4", "GL Compatibility")
 boot_splash/bg_color=Color(0, 0, 0, 1)
 config/icon="res://sprites/icon.svg"
 
+[autoload]
+
+SignalBus="*res://scripts/signal_bus.gd"
+
 [display]
 
 window/size/viewport_width=256

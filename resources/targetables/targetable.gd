@@ -1,5 +1,4 @@
 class_name Targetable
-extends Resource
 
 var scene: Node2D
 var spawn_coords: Vector2
