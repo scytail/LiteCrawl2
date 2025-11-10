@@ -10,7 +10,6 @@
 [sub_resource type="Resource" id="Resource_0jgsq"]
 script = ExtResource("3_caeyj")
 enemy_spawn_range = Vector2i(2, 3)
-cat_spawn_chance = 0
 
 [sub_resource type="Resource" id="Resource_pdl0n"]
 script = ExtResource("4_0fobp")
