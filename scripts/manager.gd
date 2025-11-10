@@ -31,17 +31,29 @@ var _level_grid: LevelGrid
 
 ## Init the game!
 func _ready():
-	player = Player.new()
-	player.health_points = 10
-	player.attack_points = 1
-	player.scene = $Player
-	player.spawn_coords = $Player.position
+	_generate_player()
+	
+	_register_signals()
 	
 	_level_grid = gridTemplate.generate_grid()
 	_spawn_targetable_scenes()
 	
 	_update_pointer_selection(0)
 	_move_pointer(selected_target)
+
+
+## Generate a new player object
+func _generate_player():
+	player = Player.new()
+	player.health_points = 10
+	player.attack_points = 1
+	player.scene = $Player
+	player.spawn_coords = $Player.position
+
+
+## Registers the manager with any signals it needs to handle
+func _register_signals():
+	SignalBus.change_room.connect(_on_change_room)
 
 
 ## Handles firing the turn sequence whenever a player inputs an action
@@ -163,3 +175,9 @@ func _validate_targetables():
 				# Update cursor
 				_update_pointer_selection(0)
 				_move_pointer(selected_target)
+
+
+## Changes rooms as-needed
+func _on_change_room(direction: SignalBus.Room_Direction):
+	# TODO: change rooms
+	print("changing rooms %s" %direction)
