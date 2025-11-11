@@ -5,7 +5,7 @@ extends Resource
 @export
 var grid_dimensions: Vector2i
 @export
-var room_options: Array[EnemyRoomOption]
+var room_options: Array[RoomOption]
 
 
 ## Generates a grid instance based on its configuration
