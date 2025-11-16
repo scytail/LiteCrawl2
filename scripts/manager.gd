@@ -141,7 +141,7 @@ func _move_pointer(index: int):
 
 
 ## Fires off the action sequence for a character, returning whether
-## the action fired successfully or not
+## the turn should continue or if it should be skipped
 func _do_targetable_actions(turn_index) -> bool:
 	var targetables = _level_grid.get_room(_level_grid.current_room_coords).targetables
 	if turn_index >= targetables.size():
@@ -155,8 +155,7 @@ func _do_targetable_actions(turn_index) -> bool:
 	else:
 		actor = targetables[turn_index]
 		target = player
-	actor.act(target)
-	return true
+	return actor.act(target)
 
 
 ## Validates the existence of targetables within the game and handles removing
@@ -179,5 +178,19 @@ func _validate_targetables():
 
 ## Changes rooms as-needed
 func _on_change_room(direction: SignalBus.Room_Direction):
-	# TODO: change rooms
-	print("changing rooms %s" %direction)
+	_turn_index = 126  # If we have more than 126 turns to go through, I'm calling in an orbital strike
+	#_change_turn()
+	
+	match direction:
+		SignalBus.Room_Direction.left:
+			if (_level_grid.current_room_coords.x > 0):
+				_level_grid.current_room_coords += Vector2i(-1, 0)
+		SignalBus.Room_Direction.down:
+			if (_level_grid.current_room_coords.x < gridTemplate.grid_dimensions.y - 1):
+				_level_grid.current_room_coords += Vector2i(0, 1)
+		SignalBus.Room_Direction.up:
+			if (_level_grid.current_room_coords.y > 0):
+				_level_grid.current_room_coords += Vector2i(0, -1)
+		SignalBus.Room_Direction.right:
+			if (_level_grid.current_room_coords.x < gridTemplate.grid_dimensions.x - 1):
+				_level_grid.current_room_coords += Vector2i(1, 0)

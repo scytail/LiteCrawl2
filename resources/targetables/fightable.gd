@@ -5,10 +5,9 @@ var health_points: int
 var attack_points: int
 
 
-func act(target: Targetable):
+func act(target: Targetable) -> bool:
 	scene.do_attack_animation(target.scene)
-	target.react(self)
-	
+	return super.act(target)
 
 func react(actor: Targetable):
 	# TODO: actor should dictate how it's acting on the target, not

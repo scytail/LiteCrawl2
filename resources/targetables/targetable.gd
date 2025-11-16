@@ -5,8 +5,10 @@ var spawn_coords: Vector2
 
 
 ## Triggers when the targetable acts
-func act(target: Targetable):
+## returns whether the turn should continue
+func act(target: Targetable) -> bool:
 	target.react(self)
+	return true
 
 
 ## Triggers when the targetable is acted on
